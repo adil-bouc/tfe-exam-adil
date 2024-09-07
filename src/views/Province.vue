@@ -7,7 +7,7 @@
       </div>
       <a href="tel:+1234567890" class="phone-button">
         <i class="fas fa-phone-alt"></i>
-        <span class="phone-number">+1 234 567 890</span>
+        <span class="phone-number">+32485059254</span>
       </a>
     </nav>
     <div class="theme-toggle-wrapper">
@@ -491,7 +491,19 @@ toggleTheme() {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+html, body {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
 
+.province {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
 .province {
   font-family: 'Montserrat', sans-serif;
   min-height: 100vh;
@@ -1167,6 +1179,13 @@ text-align: left;
   color: #fff;
 }
 
+.dark-mode h1{
+  color: white;
+}
+
+.dark-mode p{
+  color: white;
+}
 .dark-mode .studio-card {
   background-color: #444;
 }
@@ -1270,5 +1289,52 @@ text-align: left;
 .theme-toggle.dark .toggle-icon.moon {
   display: block;
 }
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
 
+  .logo {
+    margin-bottom: 1rem;
+  }
+
+  .phone-button {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+
+  .phone-button:hover {
+    width: 100%;
+  }
+
+  .phone-number {
+    opacity: 1;
+    max-width: none;
+  }
+  .footer-logo span{
+    font-size: 1em;
+    margin-right: 8.3em;
+    margin-bottom: 1em;
+}
+.footer-links{
+  margin: 1em 1em 0em 6em;
+  flex-direction: row;
+}
+.footer-links a {
+    color: #fff;
+    margin-right: 4em;
+    margin-left: -3em;
+    text-decoration: none;
+}
+.phone-button{
+  display: none;
+}
+.theme-toggle{
+  bottom: 5.5em;
+  left: 0.89em;
+}
+}
 </style>

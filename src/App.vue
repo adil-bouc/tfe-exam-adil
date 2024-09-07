@@ -61,7 +61,9 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
-
+*{
+  overflow-x: hidden;
+}
 
 
 </style>

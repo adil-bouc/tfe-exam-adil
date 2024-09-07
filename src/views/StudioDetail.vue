@@ -10,7 +10,9 @@
         <span class="phone-number">+32 485 05 92 54</span>
       </a>
     </nav>
-
+    <button @click="goBack" class="back-button">
+      ⬅ㅤREVENIR
+    </button> 
     <div class="content-container">
       <div class="studio-detail">
         <div class="theme-toggle-wrapper">
@@ -355,6 +357,9 @@ if (studio) {
       this.email = '';
       this.reservationConfirmed = false;
     },
+    goBack() {
+    this.$router.go(-1); // Ceci ramènera l'utilisateur à la page précédente
+  },
       formatTimeSlot(timeSlot) {
         return `${timeSlot}:00`;
       },
@@ -460,7 +465,18 @@ input[type="email"]:focus {
   transition: background-color 0.3s ease;
   width: 100%;
 }
-
+.back-to-website-button{
+  padding: 15px 30px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
 .confirm-reservation-button:hover {
   background-color: #c0392b;
 }
@@ -1134,5 +1150,241 @@ footer {
 
 .dark-mode .reserve-button:hover {
   background-color: #e74c3c;
+}
+/* Existing styles... */
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .content-container {
+    padding: 16px;
+  }
+
+  .studio-info-and-booking {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 992px) {
+  .image-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .image-gallery img:first-child {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .title-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title-section h1 {
+    margin-bottom: 10px;
+  }
+
+  .reserve-button {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .phone-button {
+    margin-top: 15px;
+    margin-right: 0;
+  }
+
+  .theme-toggle-wrapper {
+    top: 80px;
+    right: 16px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    margin-right: 0;
+  }
+
+  .footer-section {
+    margin-bottom: 30px;
+  }
+
+  .footer-right h3,
+  .footer-right ul {
+    text-align: left;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .image-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+
+  .reservation-calendar,
+  .time-slots,
+  .time-slot-options {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  .reservation-slot,
+  .time-slot,
+  .time-slot-option {
+    padding: 0.3rem;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .logo img {
+    height: 30px;
+  }
+
+  .logo span {
+    font-size: 1.2rem;
+  }
+
+  .phone-button {
+    font-size: 0.9rem;
+  }
+
+  .theme-toggle-wrapper {
+    scale: 1.2;
+    top: 70px;
+  }
+
+  main {
+    padding: 1.5rem 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .reserve-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .footer-logo {
+    scale: 2;
+  }
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .phone-button {
+    display: none; /* Supprime le bouton téléphone */
+  }
+
+
+
+  .footer-logo span {
+    font-size: 1rem; /* Réduit la taille du texte du logo dans le footer */
+    scale: 0.5; /* Réduit l'échelle du logo dans le footer */
+  }
+ 
+
+  .theme-toggle-wrapper{
+    margin-left: 14em;
+    top: 1em;
+   
+  }
+
+
+
+  .footer-logo span {
+    scale: 1;
+    margin-left: 2.2em;
+  }
+  main{
+    margin-right: 3em;
+  }
+}
+.back-button {
+  position: absolute;
+  top: 10em;
+  left: 2em;
+  padding: 0.75rem 1.5rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.back-button:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.back-button i {
+  margin-right: 0.5rem;
+}
+
+/* Ajustement pour le mode sombre */
+.dark-mode .back-button {
+  background-color: #ff7e7e;
+  box-shadow: 0 4px 15px rgba(255, 126, 126, 0.3);
+}
+
+.dark-mode .back-button:hover {
+  background-color: #e74c3c;
+}
+
+
+@media (max-width: 768px) {
+  .back-button {
+    top: 5em;
+    left: 18em;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
 }
   </style>

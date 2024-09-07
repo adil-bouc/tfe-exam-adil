@@ -30,20 +30,27 @@
           </button>
         </div>
         
-        <div class="map">
-          <svg viewBox="0 0 600 500" ref="mapSvg">
-            <path
-              v-for="province in provinces"
-              :key="province.id"
-              :d="province.path"
-              :fill="getProvinceColor(province.id)"
-              :stroke="isDarkMode ? '#333333' : '#FFFFFF'"
-              stroke-width="4"
-              @mouseover="highlightProvince(province.id)"
-              @mouseout="resetHighlight"
-              @click="selectProvince(province.id)"
-            />
-          </svg>
+        <div class="map-container">
+          <div v-if="!isMobile" class="map">
+            <svg viewBox="0 0 600 500" ref="mapSvg">
+              <path
+                v-for="province in provinces"
+                :key="province.id"
+                :d="province.path"
+                :fill="getProvinceColor(province.id)"
+                :stroke="isDarkMode ? '#333333' : '#FFFFFF'"
+                stroke-width="4"
+                @mouseover="highlightProvince(province.id)"
+                @mouseout="resetHighlight"
+                @click="selectProvince(province.id)"
+              />
+            </svg>
+          </div>
+          <ul v-else class="province-list">
+            <li v-for="province in provinces" :key="province.id" @click="selectProvince(province.id)">
+              {{ province.name }}
+            </li>
+          </ul>
         </div>
       </main>
 
@@ -60,7 +67,7 @@
             transform: `rotate(${logo.rotation}deg)`
           }"
         />
-      </div><br><br>
+      </div>
 
       <footer>
         <div class="footer-content">
@@ -115,25 +122,31 @@ export default {
         { id: 'liege', name: 'Liège', path: 'M544,330 L544,318 L541,304 L543,292 L533,286 L518,283 L517,290 L516,297 L510,302 L498,301 L501,294 L493,289 L496,280 L487,277 L476,270 L468,272 L464,264 L457,267 L448,262 L449,270 L445,276 L437,272 L430,277 L426,270 L419,266 L422,260 L415,251 L409,253 L404,246 L397,238 L390,238 L391,230 L389,222 L383,216 L382,208 L385,200 L387,193 L388,185 L395,194 L400,194 L406,196 L411,198 L411,191 L420,192 L427,190 L433,192 L444,184 L448,191 L454,191 L457,186 L460,190 L465,186 L468,181 L479,179 L486,171 L492,175 L490,182 L496,185 L501,179 L507,184 L522,185 L537,185 L542,188 L541,194 L551,193 L562,209 L565,218 L579,218 L574,226 L564,233 L566,240 L570,248 L580,248 L593,251 L593,261 L591,277 L598,290 L587,291 L581,302 L570,307 L562,316 L565,324 L558,336 Z' },
         { id: 'namur', name: 'Namur', path: 'M379,415 L382,405 L394,396 L394,389 L401,387 L400,378 L394,371 L385,372 L380,359 L392,351 L394,336 L398,344 L416,343 L425,340 L421,334 L428,329 L415,314 L429,306 L434,307 L446,297 L437,292 L444,285 L445,276 L438,272 L432,278 L420,269 L421,260 L416,251 L409,253 L404,244 L389,238 L391,232 L382,218 L382,211 L375,211 L367,216 L346,222 L338,221 L331,221 L333,229 L319,230 L316,247 L323,245 L319,259 L326,264 L320,271 L324,275 L319,290 L309,291 L300,292 L289,293 L285,299 L274,305 L282,312 L287,308 L291,312 L290,321 L285,327 L291,337 L289,354 L293,357 L293,368 L298,376 L296,382 L322,371 L330,370 L334,355 L334,347 L356,328 L359,333 L364,333 L364,346 L359,350 L358,357 L355,364 L352,371 L352,377 L359,381 L363,388 L363,395 L360,403 L362,408 L362,417 L369,418 Z' },
         { id: 'hainaut', name: 'Hainaut', path: 'M297,383 L300,377 L294,368 L294,357 L289,350 L293,340 L286,328 L291,323 L291,312 L282,311 L274,305 L286,300 L293,293 L300,294 L307,288 L312,291 L323,291 L321,281 L325,276 L326,265 L319,261 L323,252 L318,247 L319,236 L305,239 L304,231 L284,232 L268,222 L259,208 L250,214 L244,207 L244,197 L228,199 L219,200 L212,192 L212,184 L202,187 L194,184 L192,177 L181,180 L173,191 L159,188 L157,181 L145,181 L132,195 L124,190 L122,184 L101,184 L106,193 L114,202 L110,209 L115,221 L116,234 L118,241 L131,250 L141,244 L152,241 L153,248 L166,250 L176,258 L176,270 L177,280 L177,288 L182,292 L191,283 L201,282 L210,284 L216,287 L228,284 L237,288 L243,292 L251,304 L255,299 L260,304 L259,310 L255,315 L252,324 L251,329 L250,335 L256,334 L259,339 L262,345 L263,351 L251,361 L252,372 L259,377 L271,373 Z' },
-        { id: 'brabantㅤwallon', name: 'Brabant Wallon', path: 'M245,196 L251,193 L257,194 L266,199 L275,199 L281,191 L287,196 L288,189 L295,189 L305,183 L310,190 L321,183 L327,188 L332,183 L328,174 L337,174 L347,170 L355,175 L359,181 L371,182 L373,187 L383,181 L388,185 L385,191 L388,197 L386,206 L383,212 L375,212 L367,217 L357,220 L349,223 L343,218 L334,220 L333,228 L323,229 L319,236 L311,239 L304,237 L299,231 L288,230 L281,236 L276,229 L269,223 L268,216 L261,217 L259,207 L251,213 L245,208 Z' },
+        { id: 'brabantwallon', name: 'Brabant Wallon', path: 'M245,196 L251,193 L257,194 L266,199 L275,199 L281,191 L287,196 L288,189 L295,189 L305,183 L310,190 L321,183 L327,188 L332,183 L328,174 L337,174 L347,170 L355,175 L359,181 L371,182 L373,187 L383,181 L388,185 L385,191 L388,197 L386,206 L383,212 L375,212 L367,217 L357,220 L349,223 L343,218 L334,220 L333,228 L323,229 L319,236 L311,239 L304,237 L299,231 L288,230 L281,236 L276,229 L269,223 L268,216 L261,217 L259,207 L251,213 L245,208 Z' },
         { id: 'bruxelles', name: 'Bruxelles', path: 'M268,168 L271,162 L276,158 L275,150 L282,147 L287,148 L293,144 L298,151 L295,156 L302,160 L305,165 L301,168 L305,174 L298,176 L290,180 L283,179 L278,170 Z' },
-        { id: 'brabantㅤflamand', name: 'Brabant Flamand', path: 'M305,184 L305,175 L297,178 L289,181 L282,178 L278,171 L267,169 L270,163 L275,157 L276,150 L283,147 L291,146 L292,126 L287,120 L278,116 L270,114 L266,119 L263,127 L256,126 L253,133 L255,139 L252,144 L245,140 L242,147 L245,153 L237,162 L243,167 L239,176 L232,180 L223,178 L220,183 L223,189 L214,191 L214,196 L224,199 L234,197 L242,195 L252,190 L258,195 L267,197 L275,197 L279,190 L286,193 L289,188 L296,188 M292,127 L293,133 L293,145 L299,152 L296,157 L302,161 L304,168 L305,175 L300,178 L292,182 L294,189 L306,183 L311,190 L322,183 L326,189 L332,185 L329,175 L340,176 L346,172 L354,175 L359,180 L369,181 L373,188 L382,182 L390,186 L394,193 L400,194 L404,190 L401,180 L407,172 L408,156 L414,151 L407,145 L397,144 L393,140 L397,133 L401,127 L407,121 L405,113 L398,111 L397,118 L390,119 L383,115 L376,114 L363,118 L356,120 L354,114 L349,116 L343,117 L340,122 L336,117 L325,120 L320,125 L315,123 L307,123 L296,123' },
+        { id: 'brabantflamand', name: 'Brabant Flamand', path: 'M305,184 L305,175 L297,178 L289,181 L282,178 L278,171 L267,169 L270,163 L275,157 L276,150 L283,147 L291,146 L292,126 L287,120 L278,116 L270,114 L266,119 L263,127 L256,126 L253,133 L255,139 L252,144 L245,140 L242,147 L245,153 L237,162 L243,167 L239,176 L232,180 L223,178 L220,183 L223,189 L214,191 L214,196 L224,199 L234,197 L242,195 L252,190 L258,195 L267,197 L275,197 L279,190 L286,193 L289,188 L296,188 M292,127 L293,133 L293,145 L299,152 L296,157 L302,161 L304,168 L305,175 L300,178 L292,182 L294,189 L306,183 L311,190 L322,183 L326,189 L332,185 L329,175 L340,176 L346,172 L354,175 L359,180 L369,181 L373,188 L382,182 L390,186 L394,193 L400,194 L404,190 L401,180 L407,172 L408,156 L414,151 L407,145 L397,144 L393,140 L397,133 L401,127 L407,121 L405,113 L398,111 L397,118 L390,119 L383,115 L376,114 L363,118 L356,120 L354,114 L349,116 L343,117 L340,122 L336,117 L325,120 L320,125 L315,123 L307,123 L296,123' },
         { id: 'limbourg', name: 'Limbourg', path: 'M383,112 L387,105 L398,102 L406,94 L412,93 L418,88 L425,88 L425,80 L420,70 L420,61 L448,59 L459,51 L466,55 L469,64 L470,71 L481,75 L487,79 L497,78 L505,85 L513,84 L516,90 L515,96 L510,99 L511,106 L505,108 L503,113 L506,119 L497,131 L503,133 L499,141 L494,145 L482,159 L486,169 L483,175 L475,180 L467,181 L462,189 L456,191 L449,190 L445,185 L436,187 L433,192 L426,190 L419,191 L411,191 L413,197 L403,195 L404,187 L401,177 L410,171 L405,168 L409,155 L414,148 L408,143 L400,144 L394,143 L391,136 L399,131 L403,123 L409,117 L401,110 L397,116 L389,117 Z' },
         { id: 'anvers', name: 'Anvers', path: 'M274,33 L275,46 L282,50 L275,58 L277,69 L281,80 L280,90 L267,94 L260,96 L259,107 L263,113 L271,113 L281,114 L288,118 L293,123 L303,123 L311,122 L319,123 L327,120 L337,118 L345,118 L353,116 L358,119 L369,118 L377,114 L385,112 L387,106 L396,103 L402,100 L406,95 L415,94 L424,88 L427,80 L420,72 L422,63 L418,56 L416,49 L407,48 L401,41 L399,35 L395,31 L396,17 L393,9 L387,6 L375,24 L359,24 L349,22 L351,16 L359,9 L355,3 L347,2 L343,8 L336,14 L329,20 L319,19 L311,17 L312,8 L303,8 L293,11 L291,19 L295,25 L296,31 L292,35 L286,38 Z' },
-        { id: 'flandreㅤorientale',  name: 'Flandre Orientale', path: 'M136,64 L152,65 L153,55 L172,54 L194,61 L197,72 L218,73 L233,65 L250,56 L260,47 L265,33 L271,46 L276,54 L276,70 L283,80 L279,90 L264,93 L258,99 L259,112 L268,113 L263,126 L255,127 L254,139 L245,142 L244,151 L237,162 L242,167 L239,176 L229,179 L221,179 L222,188 L214,189 L202,186 L192,178 L183,177 L175,184 L174,192 L157,188 L149,182 L156,173 L155,165 L145,158 L149,152 L141,147 L145,139 L140,133 L145,123 L142,113 L125,99 L139,84 L131,76 Z'},
-        { id: 'flandreㅤoccidentale', name: 'Flandre Occidentale', path: 'M58,198 L65,186 L94,177 L100,186 L108,181 L123,184 L129,194 L156,174 L155,165 L144,158 L144,148 L140,137 L144,125 L142,113 L126,100 L139,85 L129,75 L136,64 L128,55 L129,42 L128,32 L95,43 L15,96 L2,102 L5,121 L16,134 L9,145 L11,161 L17,169 L27,169 L36,181 L41,191 Z' },
+        { id: 'flandreorientale',  name: 'Flandre Orientale', path: 'M136,64 L152,65 L153,55 L172,54 L194,61 L197,72 L218,73 L233,65 L250,56 L260,47 L265,33 L271,46 L276,54 L276,70 L283,80 L279,90 L264,93 L258,99 L259,112 L268,113 L263,126 L255,127 L254,139 L245,142 L244,151 L237,162 L242,167 L239,176 L229,179 L221,179 L222,188 L214,189 L202,186 L192,178 L183,177 L175,184 L174,192 L157,188 L149,182 L156,173 L155,165 L145,158 L149,152 L141,147 L145,139 L140,133 L145,123 L142,113 L125,99 L139,84 L131,76 Z'},
+        { id: 'flandreoccidentale', name: 'Flandre Occidentale', path: 'M58,198 L65,186 L94,177 L100,186 L108,181 L123,184 L129,194 L156,174 L155,165 L144,158 L144,148 L140,137 L144,125 L142,113 L126,100 L139,85 L129,75 L136,64 L128,55 L129,42 L128,32 L95,43 L15,96 L2,102 L5,121 L16,134 L9,145 L11,161 L17,169 L27,169 L36,181 L41,191 Z' },
       ],
       selectedProvince: null,
       highlightedProvince: null,
       logos: [],
       logoCounter: 0,
-      isDarkMode: false
+      isDarkMode: false,
+      isMobile: false
     }
   },
   mounted() {
     setTimeout(() => {
       this.isLoading = false
     }, 2000)
+    this.checkMobile();
+    window.addEventListener('resize', this.checkMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkMobile);
   },
   methods: {
     selectProvince(id) {
@@ -228,6 +241,9 @@ export default {
     },
     toggleTheme() {
       this.isDarkMode = !this.isDarkMode;
+    },
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768;
     }
   }
 }
@@ -381,6 +397,11 @@ p {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
 }
+.footer-section ul li a {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
 
 .jelly-btn {
   transition: all 0.3s ease;
@@ -406,24 +427,47 @@ p {
   opacity: 1;
 }
 
-.map {
+.map-container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-svg {
+.map {
   width: 100%;
   max-width: 600px;
   margin-top: 4em;
   z-index: 4;
+}
+
+svg {
+  width: 100%;
   height: auto;
 }
 
 path {
   transition: all 0.3s ease;
   cursor: pointer;
+}
+
+.province-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.province-list li {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.province-list li:hover {
+  background-color: #e0e0e0;
 }
 
 .logo-container {
@@ -473,12 +517,6 @@ footer {
 
 .footer-section ul li {
   margin-bottom: 0.5rem;
-}
-
-.footer-section ul li a {
-  color: #666;
-  text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 .footer-section ul li a:hover {
@@ -611,6 +649,15 @@ text-align: left;
   background-color: #e74c3c;
 }
 
+.dark-mode .province-list li {
+  background-color: #444;
+  color: #fff;
+}
+
+.dark-mode .province-list li:hover {
+  background-color: #555;
+}
+
 .invert {
   filter: invert(1) drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
@@ -632,7 +679,7 @@ text-align: left;
     margin-bottom: 2rem;
   }
 
-  .map {
+  .map-container {
     width: 100%;
   }
 }
@@ -643,7 +690,11 @@ text-align: left;
     width: 102%;
     display: flex;
   }
-
+  .theme-toggle-wrapper{
+    margin-left: 14em;
+    top: 1em;
+   
+  }
   .logo {
     margin: 1rem;
   }
@@ -679,12 +730,18 @@ text-align: left;
     flex-direction: column;
     align-items: center;
   }
-
+  .phone-button{
+    display: none;
+  }
+  
   .phone-number {
     display: none;
   }
   .explore-btn{
     display: none;
+  }
+  .footer-logo span{
+    scale: 0.8;
   }
 }
 
